@@ -1,7 +1,6 @@
 import re
 import subprocess
 
-import py
 import pytest
 import pytest_cookies
 
