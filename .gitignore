@@ -1,3 +1,6 @@
+/.vscode
+/.idea
+
 ### https://raw.github.com/github/gitignore/d34e91530084f6b11b4b90621f9a4f2a895f3f3c/Python.gitignore
 
 # Byte-compiled / optimized / DLL files
@@ -116,5 +119,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-
