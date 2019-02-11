@@ -17,32 +17,47 @@ language: python
 matrix:
   fast_finish: true
   include:
-    - python: "3.7"
+    - <<: *xenial-mixin
+      name: Code-style check (black)
+      python: "3.7"
       install:
         - pip install black
       script:
         - black --check --diff hooks tests
-    - python: "3.7"
+    - <<: *xenial-mixin
+      name: Python imports check (isort)
+      python: "3.7"
       install:
         - pip install isort
       script:
         - isort --check-only --diff --recursive hooks tests
-    - python: "3.7"
+    - <<: *xenial-mixin
+      name: Flake8 static analysis
+      python: "3.7"
       install:
         - pip install flake8
       script:
         - flake8 --show-source --statistics
-
-    - python: "2.7"
-    - python: "3.4"
-    - python: "3.5"
-    - python: "3.6"
+    - name: py27 unit tests
+      python: "2.7"
+    - name: py34 unit tests
+      python: "3.4"
+    - name: py35 unit tests
+      python: "3.5"
+    - name: py36 unit tests
+      python: "3.6"
     - <<: *xenial-mixin
+      name: py37 unit tests
       python: "3.7"
     - <<: *xenial-mixin
+      name: py38-dev unit tests
       python: "3.8-dev"
-    - python: pypy2.7-6.0.0
-    - python: pypy3.5-6.0.0
+    - <<: *xenial-mixin
+      name: pypy2 unit tests
+      python: pypy2.7-6.0.0
+    - <<: *xenial-mixin
+      name: pypy3 unit tests
+      python: pypy3.5-6.0.0
 
   allow_failures:
     - python: "3.8-dev"
