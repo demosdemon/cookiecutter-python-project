@@ -4,6 +4,7 @@ dist: trusty
 sudo: false
 
 language: python
+cache: pip
 
 .mixins:
   - &xenial-mixin
