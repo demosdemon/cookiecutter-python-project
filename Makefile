@@ -39,8 +39,9 @@ tests:
 .PHONY: venv
 venv: $(VIRTUAL_ENV)
 
-$(VIRTUAL_ENV):
+$(VIRTUAL_ENV): requirements.txt requirements-dev.txt requirements-test.txt
 	virtualenv --clear --python python$(PYTHON_VERSION) $(VIRTUAL_ENV)
+	@ln -sf python$(PYTHON_VERSION) $(VIRTUAL_ENV)/bin/python
 	@touch $@
 
 $(VIRTUAL_ENV)/bin/pip-compile $(VIRTUAL_ENV)/bin/pip-sync: $(VIRTUAL_ENV)
