@@ -64,7 +64,7 @@ matrix:
     - python: "3.8-dev"
 
 install:
-  - pip install -r requirements-dev.txt
+  - pip install -r requirements-test.txt
   - pip install pytest-travis-fold
 script:
   - py.test
