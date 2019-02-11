@@ -9,5 +9,6 @@ python:
   - "pypy"
 install:
   - pip install -r requirements-dev.txt
+  - pip install pytest-travis-fold
 script: 
   - py.test
