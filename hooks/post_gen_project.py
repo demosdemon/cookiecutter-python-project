@@ -46,31 +46,3 @@ if (os.path.exists(readme)):
         )
     )
 # end format title of the generated readme file
-
-# issue #3 - copy post hook to project directory
-if (re.match(r'YES', '{{cookiecutter.copy_hooks}}', re.I)):
-    if (re.match(r'^cookiecutter\-', '{{cookiecutter.project_slug}}')):
-        hooksdir = os.getcwd() + '/hooks'
-        posthook = hooksdir + '/post_gen_project.py'
-        source = os.path.realpath(__file__)
-        replacements = [
-            {'project_slug': '{{cookiecutter.project_slug}}'},
-            {'copy_hooks': '{{cookiecutter.copy_hooks}}'},
-
-            # project_name must be set after project_slug to prevent side
-            # effects
-            {'project_name': '{{cookiecutter.project_name}}'}
-        ]
-
-        if (not os.path.exists(hooksdir)):
-            os.makedirs(hooksdir)
-        shutil.copyfile(source, posthook)
-
-        set_file_content(
-            posthook,
-            fix_template_expansion(
-                get_file_content(posthook), replacements
-            ) + "\n"
-        )
-# end issue #3
-
