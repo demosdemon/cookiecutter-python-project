@@ -1,20 +1,4 @@
-import os
 import subprocess
-from contextlib import contextmanager
-
-
-@contextmanager
-def inside_dir(dirpath):
-    """
-    Execute code from inside the given directory
-    :param dirpath: String, path of the directory the command is being run.
-    """
-    old_path = os.getcwd()
-    try:
-        os.chdir(dirpath)
-        yield
-    finally:
-        os.chdir(old_path)
 
 
 def test_project_tree(cookies):
@@ -24,7 +8,7 @@ def test_project_tree(cookies):
     assert result.project.basename == "test_project"
 
 
-def test_run_flake8(cookies):
+def test_run_flake8(cookies, monkeypatch):
     result = cookies.bake(extra_context={"project_slug": "flake8_compat"})
-    with inside_dir(str(result.project)):
-        subprocess.check_call(["flake8"])
+    monkeypatch.chdir(str(result.project))
+    subprocess.check_call(["flake8"])
