@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/demosdemon/cookiecutter-python-project.svg?branch=master)](https://travis-ci.com/demosdemon/cookiecutter-python-project)
+[![Requirements Status](https://requires.io/github/demosdemon/cookiecutter-python-project/requirements.svg?branch=master)](https://requires.io/github/demosdemon/cookiecutter-python-project/requirements/?branch=master)
 
 # Python Project
 

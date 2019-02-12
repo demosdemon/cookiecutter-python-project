@@ -7,6 +7,18 @@ import pytest
 import pytest_cookies
 
 
+def _clear_pyc_files():
+    if sys.version_info[0] == 2:
+        hooks = py.path.local().join("hooks")
+        for child in hooks.listdir("*.pyc"):
+            child.remove()
+
+
+def _match_file(pattern, file_contents):
+    match = re.search(pattern, file_contents, re.MULTILINE)
+    assert match is not None, "%r did not match %r" % (pattern, file_contents)
+
+
 @pytest.mark.parametrize(
     ("filename", "match_contents", "extra_context"),
     [
@@ -46,18 +58,6 @@ def test_project_generated_file(cookies, filename, match_contents, extra_context
             _match_file(pattern, file_contents)
 
 
-def _clear_pyc_files():
-    if sys.version_info[0] == 2:
-        hooks = py.path.local().join("hooks")
-        for child in hooks.listdir("*.pyc"):
-            child.remove()
-
-
-def _match_file(pattern, file_contents):
-    match = re.search(pattern, file_contents, re.MULTILINE)
-    assert match is not None, "%r did not match %r" % (pattern, file_contents)
-
-
 def test_project_tree(cookies):
     _clear_pyc_files()
     result = cookies.bake(extra_context={"project_slug": "test_project"})
@@ -72,3 +72,17 @@ def test_run_flake8(cookies, monkeypatch):
     result = cookies.bake(extra_context={"project_slug": "flake8_compat"})
     monkeypatch.chdir(str(result.project))
     subprocess.check_call(["flake8"])
+
+
+def test_run_black(cookies, monkeypatch):
+    _clear_pyc_files()
+    result = cookies.bake()
+    monkeypatch.chdir(str(result.project))
+    subprocess.check_call(["black", "--check", "--diff", "."])
+
+
+def test_run_isort(cookies, monkeypatch):
+    _clear_pyc_files()
+    result = cookies.bake()
+    monkeypatch.chdir(str(result.project))
+    subprocess.check_call(["isort", "--check-only", "--diff", "--recursive", "."])
