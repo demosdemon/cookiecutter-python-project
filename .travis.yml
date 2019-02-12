@@ -18,23 +18,20 @@ cache: pip
 matrix:
   fast_finish: true
   include:
-    - <<: *xenial-mixin
-      name: Code-style check (black)
-      python: "3.7"
+    - name: Code-style check (black)
+      python: "3.6"
       install:
         - pip install black
       script:
         - black --check --diff hooks tests
-    - <<: *xenial-mixin
-      name: Python imports check (isort)
-      python: "3.7"
+    - name: Python imports check (isort)
+      python: "3.6"
       install:
         - pip install isort
       script:
         - isort --check-only --diff --recursive hooks tests
-    - <<: *xenial-mixin
-      name: Flake8 static analysis
-      python: "3.7"
+    - name: Flake8 static analysis
+      python: "3.6"
       install:
         - pip install flake8
       script:
