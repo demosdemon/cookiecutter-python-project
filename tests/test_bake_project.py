@@ -24,7 +24,8 @@ def test_project_generated_file(cookies, filename, match_contents, extra_context
     extra_context = extra_context or {}
     result = cookies.bake(extra_context)  # type: pytest_cookies.Result
 
-    assert result.exception is None, result.exception
+    if result.exception is not None:
+        raise result.exception
     assert result.exit_code == 0
 
     project = result.project
@@ -49,7 +50,8 @@ def _match_file(pattern, file_contents):
 
 def test_project_tree(cookies):
     result = cookies.bake(extra_context={"project_slug": "test_project"})
-    assert result.exception is None, result.exception
+    if result.exception is not None:
+        raise result.exception
     assert result.exit_code == 0
     assert result.project.basename == "test_project"
 
