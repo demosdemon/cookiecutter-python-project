@@ -6,6 +6,8 @@ import py
 import pytest
 import pytest_cookies
 
+missing = object()
+
 
 def _clear_pyc_files():
     if sys.version_info[0] == 2:
@@ -32,6 +34,17 @@ def _match_file(pattern, file_contents):
             ),
             {"github_username": "foobar_test", "project_name": "Test Project"},
         ),
+        (
+            "Makefile",
+            re.escape("PYTHON_VERSION ?= 3.6"),
+            {"makefile_python_version": "3.6"},
+        ),
+        (
+            "Makefile",
+            re.escape("VIRTUAL_ENV ?= $(CURDIR)/.foobar"),
+            {"makefile_virtualenv_name": ".foobar"},
+        ),
+        ("Makefile", missing, {"use_makefile": "no"}),
     ],
 )
 def test_project_generated_file(cookies, filename, match_contents, extra_context):
@@ -41,12 +54,16 @@ def test_project_generated_file(cookies, filename, match_contents, extra_context
 
     if result.exception is not None:
         raise result.exception
+
     assert result.exit_code == 0
 
     project = result.project
-    assert project.join(filename).exists()
+    if match_contents is missing:
+        assert not project.join(filename).exists()
+    else:
+        assert project.join(filename).exists()
 
-    if match_contents:
+    if match_contents is not None and match_contents is not missing:
         with project.join(filename).open("r") as fp:
             file_contents = fp.read()
 
