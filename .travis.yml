@@ -9,7 +9,6 @@ cache: pip
 .mixins:
   - &xenial-mixin
     dist: xenial
-    sudo: true
     addons:
       apt:
         packages:
