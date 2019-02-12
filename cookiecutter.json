@@ -6,7 +6,7 @@
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
   "project_short_description": "A short description of the project",
   "use_makefile": "yes",
-  "makefile_python_version": "3.7",
+  "makefile_python_version": ["2.7", "3.4", "3.5", "3.6","3.7"],
   "makefile_virtualenv_name": ".venv",
   "release_date": "{% now 'local' %}",
   "version": "0.1.0",
