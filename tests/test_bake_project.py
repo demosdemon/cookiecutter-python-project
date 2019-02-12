@@ -74,6 +74,7 @@ def test_run_flake8(cookies, monkeypatch):
     subprocess.check_call(["flake8"])
 
 
+@pytest.mark.skipif("sys.version_info < (3, 6)")
 def test_run_black(cookies, monkeypatch):
     _clear_pyc_files()
     result = cookies.bake()
