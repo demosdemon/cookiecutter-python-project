@@ -1,36 +1,33 @@
 # https://travis-ci.com/demosdemon/cookiecutter-python-project
 
-dist: trusty
 sudo: false
 
 language: python
 cache: pip
 
-.mixins:
-  - &xenial-mixin
-    dist: xenial
-    addons:
-      apt:
-        packages:
-          - libgnutls-dev
+dist: xenial
+addons:
+  apt:
+    packages:
+      - libgnutls-dev
 
 matrix:
   fast_finish: true
   include:
     - name: Code-style check (black)
-      python: "3.6"
+      python: "3.7"
       install:
         - pip install black
       script:
         - black --check --diff hooks tests
     - name: Python imports check (isort)
-      python: "3.6"
+      python: "3.7"
       install:
         - pip install isort
       script:
         - isort --check-only --diff --recursive hooks tests
     - name: Flake8 static analysis
-      python: "3.6"
+      python: "3.7"
       install:
         - pip install flake8
       script:
@@ -43,17 +40,13 @@ matrix:
       python: "3.5"
     - name: py36 unit tests
       python: "3.6"
-    - <<: *xenial-mixin
-      name: py37 unit tests
+    - name: py37 unit tests
       python: "3.7"
-    - <<: *xenial-mixin
-      name: py38-dev unit tests
+    - name: py38-dev unit tests
       python: "3.8-dev"
-    - <<: *xenial-mixin
-      name: pypy2 unit tests
+    - name: pypy2 unit tests
       python: pypy2.7-6.0.0
-    - <<: *xenial-mixin
-      name: pypy3 unit tests
+    - name: pypy3 unit tests
       python: pypy3.5-6.0.0
 
   allow_failures:
